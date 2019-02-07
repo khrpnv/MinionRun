@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Level 21</title>
+    <link href="source/icon.png" rel="icon" type="image/png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="jquery-ui/jquery-ui.css">
+    <script src="jquery-ui/jquery-ui.js"></script>
+    <style>
+        #container{
+            width: 100%;
+            height: 1600px;
+        }
+        #game{
+            margin: auto;
+        }
+        canvas{
+            margin: auto;
+        }
+        #modal_form {
+            width: 1000px;
+            height: 250px;
+            border-radius: 5px;
+            border: 3px #000 solid;
+            background: #fff;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-top: -280px;
+            margin-left: -515px;
+            display: none;
+            opacity: 0;
+            z-index: 5;
+            padding: 20px 10px;
+        }
+
+        #modal_form #modal_close {
+            width: 21px;
+            height: 21px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            display: block;
+        }
+
+        #overlay {
+            z-index:3;
+            position:fixed;
+            background-color:#000;
+            opacity:0.8;
+            -moz-opacity:0.8;
+            filter:alpha(opacity=80);
+            width:100%;
+            height:100%;
+            top:0;
+            left:0;
+            cursor:pointer;
+            display:none;
+        }
+        .modalImg{
+            width: 100%;
+            height: 250px;
+        }
+    </style>
+    <script src="source/phaser.min.js"></script>
+</head>
+<body>
+<div id="modal_form">
+    <div id="content">
+        <img class="modalImg" src="source/map21.png">
+    </div>
+</div>
+<div id="overlay"></div>
+<div id="container">
+    <div id="game"></div>
+</div>
+<script src="21.js"></script>
+<script>
+    $(document).ready(function() { // Ð²ÑÑ Ð¼aÐ³Ð¸Ñ Ð¿oÑÐ»Ðµ Ð·aÐ³ÑÑÐ·ÐºÐ¸ ÑÑÑaÐ½Ð¸ÑÑ
+        $('#overlay').fadeIn(400, // ÑÐ½aÑaÐ»a Ð¿Ð»aÐ²Ð½o Ð¿oÐºaÐ·ÑÐ²aÐµÐ¼ ÑÐµÐ¼Ð½ÑÑ Ð¿oÐ´Ð»oÐ¶ÐºÑ
+            function(){ // Ð¿oÑÐ»Ðµ Ð²ÑÐ¿oÐ»Ð½ÐµÐ½Ð¸Ñ Ð¿ÑÐµÐ´ÑÐ¸Ð´ÑÑÐµÐ¹ aÐ½Ð¸Ð¼aÑÐ¸Ð¸
+                $('#modal_form')
+                    .css('display', 'block') // ÑÐ±Ð¸ÑaÐµÐ¼ Ñ Ð¼oÐ´aÐ»ÑÐ½oÐ³o oÐºÐ½a display: none;
+                    .animate({opacity: 1, top: '50%'}, 200); // Ð¿Ð»aÐ²Ð½o Ð¿ÑÐ¸Ð±aÐ²Ð»ÑÐµÐ¼ Ð¿ÑoÐ·ÑaÑÐ½oÑÑÑ oÐ´Ð½oÐ²ÑÐµÐ¼ÐµÐ½Ð½o Ño ÑÑÐµÐ·Ð¶aÐ½Ð¸ÐµÐ¼ Ð²Ð½Ð¸Ð·
+            });
+    });
+    /* ÐaÐºÑÑÑÐ¸Ðµ Ð¼oÐ´aÐ»ÑÐ½oÐ³o oÐºÐ½a, ÑÑÑ Ð´ÐµÐ»aÐµÐ¼ Ño Ð¶Ðµ ÑaÐ¼oÐµ Ð½o Ð² oÐ±ÑaÑÐ½oÐ¼ Ð¿oÑÑÐ´ÐºÐµ */
+    $('#modal_close, #overlay').click( function(){ // Ð»oÐ²Ð¸Ð¼ ÐºÐ»Ð¸Ðº Ð¿o ÐºÑÐµÑÑÐ¸ÐºÑ Ð¸Ð»Ð¸ Ð¿oÐ´Ð»oÐ¶ÐºÐµ
+        $('#modal_form')
+            .animate({opacity: 0, top: '45%'}, 200,  // Ð¿Ð»aÐ²Ð½o Ð¼ÐµÐ½ÑÐµÐ¼ Ð¿ÑoÐ·ÑaÑÐ½oÑÑÑ Ð½a 0 Ð¸ oÐ´Ð½oÐ²ÑÐµÐ¼ÐµÐ½Ð½o Ð´Ð²Ð¸Ð³aÐµÐ¼ oÐºÐ½o Ð²Ð²ÐµÑÑ
+                function(){ // Ð¿oÑÐ»Ðµ aÐ½Ð¸Ð¼aÑÐ¸Ð¸
+                    $(this).css('display', 'none'); // Ð´ÐµÐ»aÐµÐ¼ ÐµÐ¼Ñ display: none;
+                    $('#overlay').fadeOut(400); // ÑÐºÑÑÐ²aÐµÐ¼ Ð¿oÐ´Ð»oÐ¶ÐºÑ
+                }
+            );
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Level 14</title>
+    <link href="source/icon.png" rel="icon" type="image/png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="jquery-ui/jquery-ui.css">
+    <script src="jquery-ui/jquery-ui.js"></script>
+    <style>
+        #container{
+            width: 100%;
+            height: 750px;
+        }
+        #game{
+            margin: auto;
+        }
+        canvas{
+            margin: auto;
+        }
+        #modal_form {
+            width: 400px;
+            height: 400px;
+            border-radius: 5px;
+            border: 3px #000 solid;
+            background: #fff;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-top: -350px;
+            margin-left: -215px;
+            display: none;
+            opacity: 0;
+            z-index: 5;
+            padding: 20px 10px;
+        }
+
+        #modal_form #modal_close {
+            width: 21px;
+            height: 21px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            display: block;
+        }
+
+        #overlay {
+            z-index:3;
+            position:fixed;
+            background-color:#000;
+            opacity:0.8;
+            -moz-opacity:0.8;
+            filter:alpha(opacity=80);
+            width:100%;
+            height:100%;
+            top:0;
+            left:0;
+            cursor:pointer;
+            display:none;
+        }
+        .modalText{
+            text-align: center;
+            font-size: 32px;
+        }
+        #content{
+            margin-top: 10%;
+        }
+        .modalImg{
+            margin-left: 10%;
+            width: 350px;
+            height: auto;
+        }
+    </style>
+    <script src="source/phaser.min.js"></script>
+</head>
+<body>
+<div id="modal_form">
+    <div id="content">
+        <p class="modalText">Try to avoid machine guns` bullets and spikes.</p>
+        <img class="modalImg" src="source/machinegun.png">
+    </div>
+</div>
+<div id="overlay"></div>
+<div id="container">
+    <div id="game"></div>
+</div>
+<script src="14.js"></script>
+<script>
+    $(document).ready(function() { // ÃÂ²ÃÂÃÂ ÃÂ¼aÃÂ³ÃÂ¸ÃÂ ÃÂ¿oÃÂÃÂ»ÃÂµ ÃÂ·aÃÂ³ÃÂÃÂÃÂ·ÃÂºÃÂ¸ ÃÂÃÂÃÂaÃÂ½ÃÂ¸ÃÂÃÂ
+        $('#overlay').fadeIn(400, // ÃÂÃÂ½aÃÂaÃÂ»a ÃÂ¿ÃÂ»aÃÂ²ÃÂ½o ÃÂ¿oÃÂºaÃÂ·ÃÂÃÂ²aÃÂµÃÂ¼ ÃÂÃÂµÃÂ¼ÃÂ½ÃÂÃÂ ÃÂ¿oÃÂ´ÃÂ»oÃÂ¶ÃÂºÃÂ
+            function(){ // ÃÂ¿oÃÂÃÂ»ÃÂµ ÃÂ²ÃÂÃÂ¿oÃÂ»ÃÂ½ÃÂµÃÂ½ÃÂ¸ÃÂ ÃÂ¿ÃÂÃÂµÃÂ´ÃÂÃÂ¸ÃÂ´ÃÂÃÂÃÂµÃÂ¹ aÃÂ½ÃÂ¸ÃÂ¼aÃÂÃÂ¸ÃÂ¸
+                $('#modal_form')
+                    .css('display', 'block') // ÃÂÃÂ±ÃÂ¸ÃÂaÃÂµÃÂ¼ ÃÂ ÃÂ¼oÃÂ´aÃÂ»ÃÂÃÂ½oÃÂ³o oÃÂºÃÂ½a display: none;
+                    .animate({opacity: 1, top: '50%'}, 200); // ÃÂ¿ÃÂ»aÃÂ²ÃÂ½o ÃÂ¿ÃÂÃÂ¸ÃÂ±aÃÂ²ÃÂ»ÃÂÃÂµÃÂ¼ ÃÂ¿ÃÂoÃÂ·ÃÂaÃÂÃÂ½oÃÂÃÂÃÂ oÃÂ´ÃÂ½oÃÂ²ÃÂÃÂµÃÂ¼ÃÂµÃÂ½ÃÂ½o ÃÂo ÃÂÃÂÃÂµÃÂ·ÃÂ¶aÃÂ½ÃÂ¸ÃÂµÃÂ¼ ÃÂ²ÃÂ½ÃÂ¸ÃÂ·
+            });
+    });
+    /* ÃÂaÃÂºÃÂÃÂÃÂÃÂ¸ÃÂµ ÃÂ¼oÃÂ´aÃÂ»ÃÂÃÂ½oÃÂ³o oÃÂºÃÂ½a, ÃÂÃÂÃÂ ÃÂ´ÃÂµÃÂ»aÃÂµÃÂ¼ ÃÂo ÃÂ¶ÃÂµ ÃÂaÃÂ¼oÃÂµ ÃÂ½o ÃÂ² oÃÂ±ÃÂaÃÂÃÂ½oÃÂ¼ ÃÂ¿oÃÂÃÂÃÂ´ÃÂºÃÂµ */
+    $('#modal_close, #overlay').click( function(){ // ÃÂ»oÃÂ²ÃÂ¸ÃÂ¼ ÃÂºÃÂ»ÃÂ¸ÃÂº ÃÂ¿o ÃÂºÃÂÃÂµÃÂÃÂÃÂ¸ÃÂºÃÂ ÃÂ¸ÃÂ»ÃÂ¸ ÃÂ¿oÃÂ´ÃÂ»oÃÂ¶ÃÂºÃÂµ
+        $('#modal_form')
+            .animate({opacity: 0, top: '45%'}, 200,  // ÃÂ¿ÃÂ»aÃÂ²ÃÂ½o ÃÂ¼ÃÂµÃÂ½ÃÂÃÂµÃÂ¼ ÃÂ¿ÃÂoÃÂ·ÃÂaÃÂÃÂ½oÃÂÃÂÃÂ ÃÂ½a 0 ÃÂ¸ oÃÂ´ÃÂ½oÃÂ²ÃÂÃÂµÃÂ¼ÃÂµÃÂ½ÃÂ½o ÃÂ´ÃÂ²ÃÂ¸ÃÂ³aÃÂµÃÂ¼ oÃÂºÃÂ½o ÃÂ²ÃÂ²ÃÂµÃÂÃÂ
+                function(){ // ÃÂ¿oÃÂÃÂ»ÃÂµ aÃÂ½ÃÂ¸ÃÂ¼aÃÂÃÂ¸ÃÂ¸
+                    $(this).css('display', 'none'); // ÃÂ´ÃÂµÃÂ»aÃÂµÃÂ¼ ÃÂµÃÂ¼ÃÂ display: none;
+                    $('#overlay').fadeOut(400); // ÃÂÃÂºÃÂÃÂÃÂ²aÃÂµÃÂ¼ ÃÂ¿oÃÂ´ÃÂ»oÃÂ¶ÃÂºÃÂ
+                }
+            );
+    });
+</script>
+</body>
+</html>
